@@ -9,6 +9,7 @@ import ru.ekaterinakonova.restaurantvoting.model.Role;
 import ru.ekaterinakonova.restaurantvoting.model.User;
 import ru.ekaterinakonova.restaurantvoting.repository.UserRepository;
 
+import java.util.Date;
 import java.util.Set;
 
 @SpringBootApplication
@@ -22,8 +23,8 @@ public class RestaurantVotingApplication implements ApplicationRunner {
 
     @Override
     public void run(ApplicationArguments arg) {
-        userRepository.save(new User(1, "User_First", "User_Last", "user@gmail.com", "password", true, Set.of(Role.ROLE_USER)));
-        userRepository.save(new User(2, "Admin_First", "Admin_Last", "admin@javaops.ru", "admin", true, Set.of(Role.ROLE_USER, Role.ROLE_ADMIN)));
+        userRepository.save(new User(1, "User_First", "User_Last", "user@gmail.com", "password", true, new Date(),Set.of(Role.ROLE_USER)));
+        userRepository.save(new User(2, "Admin_First", "Admin_Last", "admin@javaops.ru", "admin", true,new Date(), Set.of(Role.ROLE_USER, Role.ROLE_ADMIN)));
         System.out.println(userRepository.findAll());
     }
 }

@@ -5,7 +5,6 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
 import lombok.*;
-import org.springframework.data.jpa.domain.AbstractPersistable;
 
 import java.util.Date;
 import java.util.EnumSet;
@@ -42,7 +41,7 @@ public class User extends AbstractNamedEntity {
     @Enumerated(EnumType.STRING)
     @CollectionTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"),
             uniqueConstraints = {@UniqueConstraint(columnNames = {"user_id", "role"},
-                                 name = "user_roles_unique")})
+                    name = "user_roles_unique")})
     @Column(name = "role")
     @ElementCollection(fetch = FetchType.EAGER)
     private Set<Role> roles;
@@ -50,22 +49,24 @@ public class User extends AbstractNamedEntity {
     public User() {
 
     }
+
     public User(User u) {
-        this(u.getId(), u.getFirstName(),u.getLastName(), u.getEmail(), u.getPassword(), u.isEnabled(), u.getRoles());
+        this(u.getId(), u.getFirstName(), u.getLastName(), u.getEmail(), u.getPassword(),u.isEnabled(),u.getRegistered(), u.getRoles());
     }
-    public User(Integer id, String firstName,String lastName, String email, String password,boolean isEnabled, Role role, Role... roles) {
-        this(id, firstName,lastName, email, password, true, EnumSet.of(role, roles));
+
+    public User(Integer id, String firstName, String lastName, String email, String password, boolean isEnabled,Date registered, Role role, Role... roles) {
+        this(id, firstName, lastName, email, password, isEnabled,registered, EnumSet.of(role, roles));
     }
-    public User(Integer id, String firstName,String lastName, String email, String password, boolean enabled, Set<Role> roles) {
-        super(id, firstName,lastName);
+
+    public User(Integer id, String firstName, String lastName, String email, String password, boolean enabled, Date registered,Set<Role> roles) {
+        super(id, firstName, lastName);
         this.email = email;
         this.password = password;
         this.enabled = enabled;
+        this.registered= registered;
         this.roles = roles;
     }
-    public boolean isEnabled() {
-        return enabled;
-    }
+
     @Override
     public String toString() {
         return "User (" +

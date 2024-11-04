@@ -13,6 +13,11 @@ import lombok.Setter;
 public class AbstractNamedEntity extends AbstractBaseEntity{
     @NotBlank
     @Size(max = 128)
+    @Column(name = "name", nullable = false)
+    protected String name;
+
+    @NotBlank
+    @Size(max = 128)
     @Column(name = "firstName", nullable = false)
     protected String firstName;
 
@@ -25,8 +30,14 @@ public class AbstractNamedEntity extends AbstractBaseEntity{
 
     }
 
-    public AbstractNamedEntity(Integer id, String firstName, String lastName) {
+    public AbstractNamedEntity(Integer id, String name) {
         super(id);
+        this.name = name;
+    }
+    public AbstractNamedEntity(Integer id,String firstName, String lastName) {
+        super(id);
+        this.firstName = firstName;
+        this.lastName = lastName;
     }
 
     @Override
