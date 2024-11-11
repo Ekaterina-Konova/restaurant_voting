@@ -1,41 +1,68 @@
 package ru.ekaterinakonova.restaurantvoting.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.validator.constraints.Range;
+
+import java.math.BigDecimal;
+import java.time.LocalDate;
 
 @Entity
 @Getter
 @Setter
-@Table(name = "dish", uniqueConstraints = {@UniqueConstraint(columnNames = {"menu_id", "name"}, name = "unidue_dish")})
+@Table(name = "dishes", uniqueConstraints = {@UniqueConstraint(columnNames = {"description", "restaurant_id"}, name = "unidue_dish")})
 public class Dish extends AbstractNamedEntity {
-    @Column(name = "price", nullable = false)
-    private int price;
+    @Column(name = "cost", nullable = false)
+    @Range(min = 0)
+    private BigDecimal cost;
 
-    @ManyToOne(fetch = FetchType.EAGER, optional = false)
-    @JoinColumn(name = "menu_id", nullable = false)
-    private Menu menu;
+    @Column(name = "description", nullable = false)
+    @Size(min = 2, max = 250)
+    @NotEmpty
+    private String description;
 
-    public Dish(int price, Menu menu) {
-      this.price = price;
-      this.menu = menu;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "restaurant_id", nullable = false)
+    @NotNull
+    private Restaurant restaurant;
+
+    @Column(name = "menu_date", columnDefinition = "date default now()")
+    @NotNull
+    private LocalDate menuDate;
+
+    public Dish(String description, BigDecimal cost, Restaurant restaurant, LocalDate menuDate) {
+        this(null, description, cost, restaurant, menuDate);
     }
-    public Dish(Integer id, String name, int price, Menu menu) {
-        super(id, name);
-        this.price = price;
-        this.menu = menu;
+
+    public Dish(Integer id, String description, BigDecimal cost, Restaurant restaurant, LocalDate menuDate) {
+        super(id);
+        this.description = description;
+        this.cost = cost;
+        this.restaurant = restaurant;
+        this.menuDate = menuDate;
     }
-    public Dish(){
-        super();
+
+    public Dish(Integer id, String description, BigDecimal cost, LocalDate menuDate) {
+        super(id);
+        this.description = description;
+        this.cost = cost;
+        this.menuDate = menuDate;
     }
-    @Override
+
+    public Dish() {
+    }
+
     public String toString() {
-        return "Dish{" +
-                ", id=" + id +
-                ", name='" + name + '\'' +
-                "price=" + price +
-                '}';
+        return "Dish [" +
+                "id=" + id +
+                "description=" + description +
+                "cost=" + cost +
+                "menuDate=" + menuDate +
+                "]";
     }
-
 
 }
