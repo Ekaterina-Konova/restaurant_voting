@@ -1,5 +1,6 @@
 package ru.ekaterinakonova.restaurantvoting.util;
 
+import ru.ekaterinakonova.restaurantvoting.model.AbstractBaseEntity;
 import ru.ekaterinakonova.restaurantvoting.util.exception.NotFoundException;
 
 public class ValidationUtil {
@@ -25,5 +26,18 @@ public class ValidationUtil {
         if (!found) {
             throw new NotFoundException("Not found entity with " + msg);
         }
+    }
+    public static void checkNew(AbstractBaseEntity entity) {
+        if (!entity.isNew()){
+            throw new IllegalArgumentException(entity + "must be new(id=null)");
+        }
+    }
+    public static Throwable getRootCause(Throwable throwable) {
+        Throwable result= throwable;
+        Throwable cause;
+        while ((cause = result.getCause()) != null &&(result != cause)) {
+            result = cause;
+        }
+        return result;
     }
 }

@@ -1,13 +1,20 @@
 package ru.ekaterinakonova.restaurantvoting.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import jakarta.persistence.*;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
-import lombok.*;
+
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.BatchSize;
+import org.hibernate.validator.constraints.Length;
+import org.springframework.util.CollectionUtils;
+
+import javax.persistence.*;
+import javax.validation.constraints.*;
+import java.util.Collection;
+import java.util.Date;
+import java.util.EnumSet;
+import java.util.Set;
+import org.springframework.util.CollectionUtils;
 
 import java.util.Date;
 import java.util.EnumSet;
@@ -20,7 +27,7 @@ import java.util.Set;
 public class User extends AbstractNamedEntity {
     @Column(name = "email", unique = true, nullable = false)
     @Email
-    @NotEmpty
+    @NotBlank
     @Size(max = 100)
     private String email;
 
@@ -67,7 +74,7 @@ public class User extends AbstractNamedEntity {
         this(id, firstName, lastName, email, password, true,new Date(), EnumSet.of(role, roles));
     }
 
-    public User(Integer id, String firstName, String lastName, String email, String password, boolean enabled, Date registered,Set<Role> roles) {
+    public User(Integer id, String firstName, String lastName, String email, String password, boolean enabled, Date registered,Collection<Role> roles) {
         super(id, firstName, lastName);
         this.email = email;
         this.password = password;
@@ -75,7 +82,9 @@ public class User extends AbstractNamedEntity {
         this.registered= registered;
         setRoles(roles);
     }
-
+    public void setRoles(Collection<Role> roles) {
+        this.roles = CollectionUtils.isEmpty(roles) ? EnumSet.noneOf(Role.class) : EnumSet.copyOf(roles);
+    }
     @Override
     public String toString() {
         return "User (" +

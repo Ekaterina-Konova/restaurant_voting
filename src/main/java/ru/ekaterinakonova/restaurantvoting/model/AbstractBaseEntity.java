@@ -1,6 +1,7 @@
 package ru.ekaterinakonova.restaurantvoting.model;
 
-import jakarta.persistence.*;
+import javax.persistence.*;
+
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.Hibernate;
@@ -25,7 +26,9 @@ public abstract class AbstractBaseEntity {
         this.id = id;
     }
 
-
+    public boolean isNew() {
+        return this.id == null;
+    }
 
     @Override
     public String toString() {
