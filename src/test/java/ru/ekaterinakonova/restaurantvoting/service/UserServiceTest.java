@@ -28,7 +28,7 @@ public class UserServiceTest extends AbstractServiceTest {
         User created = service.create(new User(newUser));
         newUser.setId(created.getId());
         assertMatch(created, newUser);
-        assertMatch(service.getAll(), USER, ADMIN, newUser);
+        assertMatch(service.getAll(), ADMIN, newUser, USER);
     }
 
     @Test
@@ -77,7 +77,7 @@ public class UserServiceTest extends AbstractServiceTest {
     @Test
     void getAll() throws Exception {
         List<User> all = service.getAll();
-        assertMatch(all, USER, ADMIN);
+        assertMatch(all,ADMIN, USER);
     }
 
     @Test
