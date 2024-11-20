@@ -21,6 +21,7 @@
         <jackson-json.version>2.9.9</jackson-json.version>
         <tomcat.version>9.0.21</tomcat.version>
 
+
         <!-- Hibernate -->
         <hibernate.version>5.4.3.Final</hibernate.version>
         <hibernate-validator.version>6.0.17.Final</hibernate-validator.version>
@@ -175,6 +176,12 @@
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-jcache</artifactId>
             <version>${hibernate.version}</version>
+        </dependency>
+        <!--https://medium.com/criciumadev/its-time-migrating-to-java-11-5eb3868354f9-->
+        <dependency>
+            <groupId>org.glassfish.jaxb</groupId>
+            <artifactId>jaxb-runtime</artifactId>
+            <version>2.4.0-b180830.0438</version>
         </dependency>
         <!--http://hibernate.org/validator/documentation/getting-started/#unified-expression-language-el-->
         <dependency>
