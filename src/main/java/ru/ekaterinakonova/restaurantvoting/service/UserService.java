@@ -14,7 +14,7 @@ import static ru.ekaterinakonova.restaurantvoting.util.ValidationUtil.*;
 
 @Service
 public class UserService {
-    private static final Sort SORT_NAME_EMAIL=new Sort(Sort.Direction.ASC, "name","email");
+    private static final Sort SORT_NAME_EMAIL = new Sort(Sort.Direction.ASC, "name", "email");
     private final UserRepository repository;
 
     @Autowired
@@ -35,6 +35,11 @@ public class UserService {
         return checkNotFoundWithId(repository.findById(id).orElse(null), id);
     }
 
+    public User getByEmail(String email) {
+        Assert.notNull(email, "email must not be null");
+        return checkNotFound(repository.getByEmail(email), "email=" + email);
+    }
+
     public User getUserById(String email) {
         Assert.notNull(email, "email must not be null");
         return checkNotFound(repository.getByEmail(email), "email=" + email);
@@ -48,6 +53,7 @@ public class UserService {
         Assert.notNull(user, "user must not be null");
         checkNotFoundWithId(repository.save(user), user.getId());
     }
+
     @Transactional
     public void enable(int id, boolean enable) {
         User user = get(id);

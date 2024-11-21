@@ -11,7 +11,7 @@ import static ru.ekaterinakonova.restaurantvoting.util.DateUtil.parseLocalDate;
 public class DateFormatters {
     private DateFormatters() {
     }
-    public static class LocalDateFormatter implements Formatter<LocalDateFormatter> {
+    public static class LocalDateFormatter implements Formatter<LocalDate> {
         @Override
         public LocalDate parse(String text, Locale locale) {
             return parseLocalDate(text);
@@ -21,4 +21,5 @@ public class DateFormatters {
             return lt.format(DateTimeFormatter.ISO_LOCAL_DATE);
         }
     }
+
 }
