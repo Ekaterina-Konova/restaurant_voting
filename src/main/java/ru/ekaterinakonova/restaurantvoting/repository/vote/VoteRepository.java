@@ -22,6 +22,8 @@ public interface VoteRepository extends JpaRepository<Vote, Integer> {
 
     @Modifying
     @Transactional
-    @Query("DELETE FROM Vote v WHERE v.id=:id AND v.user.id=:userId")
-    int delete(@Param("id") int id, @Param("userId") int userId);
+    @Query("DELETE FROM Vote v WHERE v.id=:id AND v.user.id=:userId AND v.menu.id=:menuId")
+    int delete(@Param("id") int id, @Param("userId") int userId, @Param("menuId") int menuId);
+    @Query("SELECT v FROM Vote v WHERE v.id=:id AND v.user.id=:userId AND v.menu.id=:menuId")
+    Vote get(@Param("id")int id, @Param("userId") int userId, @Param("menuId") int menuId);
 }

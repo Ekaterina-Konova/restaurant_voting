@@ -25,7 +25,7 @@ public class Vote extends AbstractBaseEntity {
     @JoinColumn(name = "menu_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @NotNull
-    private Restaurant restaurant;
+    private Menu menu;
 
     @Column(name = "date", columnDefinition = "date default now()")
     @NotNull
@@ -35,22 +35,20 @@ public class Vote extends AbstractBaseEntity {
 
     }
 
-    public Vote(Integer id, Restaurant restaurant, User user, LocalDate date) {
+    public Vote(Integer id, LocalDate date) {
         super(id);
-        this.restaurant = restaurant;
-        this.user = user;
         this.date = date;
     }
 
-    public Vote(Restaurant restaurant, User user, LocalDate date) {
-        this(null, restaurant, user, date);
+    public Vote(Vote v){
+        this(v.id, v.date);
     }
 
     @Override
     public String toString() {
         return "Vote (" +
                 "user=" + user.getName() +
-                ", id=" + restaurant.getId() +
+                ", id=" + menu.getId() +
                 ", date='" + date +
                 ')';
     }

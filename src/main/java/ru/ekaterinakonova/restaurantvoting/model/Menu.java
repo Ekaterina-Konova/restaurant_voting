@@ -25,9 +25,11 @@ public class Menu extends AbstractBaseEntity {
 
     public Menu(){
     }
-    public Menu(Integer id, Restaurant restaurant, LocalDate date) {
+    public Menu(Menu m){
+        this(m.getId(),m.getDate());
+    }
+    public Menu(Integer id, LocalDate date) {
         super(id);
-        this.restaurant = restaurant;
         this.date = date;
     }
     @Override

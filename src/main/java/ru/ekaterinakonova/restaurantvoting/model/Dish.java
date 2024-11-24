@@ -5,20 +5,22 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
+
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 import org.hibernate.validator.constraints.Range;
+
 import javax.validation.constraints.NotNull;
 
 @Entity
 @Getter
 @Setter
 @Table(name = "dishes", uniqueConstraints = {@UniqueConstraint(columnNames = {"description", "menu_id"}, name = "unique_dish")})
-public class Dish extends AbstractBaseEntity {
+public class Dish extends AbstractNamedEntity {
     @Column(name = "cost", nullable = false)
-    @Range(min = 0)
+    @Range(min = 1)
     private int cost;
 
     @Column(name = "description", nullable = false)
@@ -33,23 +35,14 @@ public class Dish extends AbstractBaseEntity {
     @JsonIgnore
     private Menu menu;
 
-    public Dish(Integer id, String description, Integer cost) {
-        super(id);
-        this.description=description;
-        this.cost=cost;
+    public Dish(Dish d) {
+        this(d.getId(), d.getDescription(), d.getCost());
     }
 
-    public Dish(String description,Integer cost, Menu menu) {
-        this(null, description, cost, menu);
-    }
-
-    public Dish(Integer id, String description, Integer cost, Menu menu) {
-        super(id);
-        this.description = description;
+    public Dish(Integer id, String description, int cost) {
+        super(id, description);
         this.cost = cost;
-        this.menu = menu;
     }
-
 
     public Dish() {
     }

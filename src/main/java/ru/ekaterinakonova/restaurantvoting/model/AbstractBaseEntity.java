@@ -5,12 +5,15 @@ import javax.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.Hibernate;
+import ru.ekaterinakonova.restaurantvoting.HasId;
+
+
 
 @MappedSuperclass
 @Access(AccessType.FIELD)
 @Setter
 @Getter
-public abstract class AbstractBaseEntity {
+public abstract class AbstractBaseEntity implements HasId{
     public static final int START_SEQ = 100000;
 
     @Id
@@ -25,10 +28,15 @@ public abstract class AbstractBaseEntity {
     protected AbstractBaseEntity(Integer id) {
         this.id = id;
     }
-
-    public boolean isNew() {
-        return this.id == null;
+    @Override
+    public Integer getId() {
+        return id;
     }
+    @Override
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
 
     @Override
     public String toString() {

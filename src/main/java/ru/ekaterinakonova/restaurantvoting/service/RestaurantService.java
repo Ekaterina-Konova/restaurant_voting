@@ -1,19 +1,23 @@
 package ru.ekaterinakonova.restaurantvoting.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 import ru.ekaterinakonova.restaurantvoting.model.Restaurant;
 import ru.ekaterinakonova.restaurantvoting.repository.RestaurantRepository;
 
+import java.util.List;
+
 import static ru.ekaterinakonova.restaurantvoting.util.ValidationUtil.checkNotFoundWithId;
 
 @Service
-public class RestauranrService {
+public class RestaurantService {
+    private static final Sort SORT_NAME = new Sort(Sort.Direction.ASC, "name");
     private final RestaurantRepository repository;
 
     @Autowired
-    public RestauranrService(RestaurantRepository repository) {
+    public RestaurantService(RestaurantRepository repository) {
         this.repository = repository;
     }
 
@@ -28,6 +32,13 @@ public class RestauranrService {
     }
 
     public void delete(int id) {
-        checkNotFoundWithId(repository.delete(id), id);
+        checkNotFoundWithId(repository.delete(id) != 0, id);
+    }
+
+    public Restaurant get(int id) {
+        return checkNotFoundWithId(repository.findById(id).orElse(null), id);
+    }
+    public List<Restaurant> getAll() {
+        return repository.findAll(SORT_NAME);
     }
 }

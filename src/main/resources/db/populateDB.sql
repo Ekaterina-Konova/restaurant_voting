@@ -36,4 +36,4 @@ INSERT INTO DISHES (description, cost, MENU_ID) VALUES
 INSERT INTO votes (DATE, USER_ID, MENU_ID) VALUES
                                                        ('2019-04-20', 0, 11),
                                                        ('2019-04-20', 1, 11),
-                                                       ('3019-06-11', 0, 12);
+                                                       ('2019-06-11', 0, 12);
