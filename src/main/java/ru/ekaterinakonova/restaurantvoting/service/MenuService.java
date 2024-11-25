@@ -7,7 +7,6 @@ import ru.ekaterinakonova.restaurantvoting.model.Menu;
 import ru.ekaterinakonova.restaurantvoting.repository.menu.MenuRepositoryImpl;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 
 import static ru.ekaterinakonova.restaurantvoting.util.ValidationUtil.checkNotFound;
@@ -38,10 +37,10 @@ public class MenuService {
     public Menu get(int id, int restaurant_id) {
        return checkNotFoundWithId(repository.get(id, restaurant_id), id);
     }
-    public List<Menu> getAll(int restaurant_id) {
+    public List<Menu> getAll() {
         return repository.getAll();
     }
-    public List<Menu> findByRestaurantId(int restaurant_id) {
+    public List<Menu> findByRestaurant(int restaurant_id) {
         List<Menu> menuList = repository.findByRestaurant(restaurant_id);
         checkNotFoundWithId(!menuList.isEmpty(), restaurant_id);
         return menuList;

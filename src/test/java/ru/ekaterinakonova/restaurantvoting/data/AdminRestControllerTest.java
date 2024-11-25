@@ -1,4 +1,4 @@
-package ru.ekaterinakonova.restaurantvoting.web.user;
+package ru.ekaterinakonova.restaurantvoting.data;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
@@ -8,6 +8,7 @@ import ru.ekaterinakonova.restaurantvoting.model.Role;
 import ru.ekaterinakonova.restaurantvoting.model.User;
 import ru.ekaterinakonova.restaurantvoting.web.AbstractControllerTest;
 import ru.ekaterinakonova.restaurantvoting.web.json.JsonUtil;
+import ru.ekaterinakonova.restaurantvoting.web.user.AdminRestController;
 
 import java.util.Collections;
 
@@ -15,7 +16,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static ru.ekaterinakonova.restaurantvoting.TestUtil.readFromJson;
-import static ru.ekaterinakonova.restaurantvoting.UserTestData.*;
+import static ru.ekaterinakonova.restaurantvoting.data.UserTestData.*;
 
 class AdminRestControllerTest extends AbstractControllerTest {
     private static final String REST_URL = AdminRestController.REST_URL + '/';

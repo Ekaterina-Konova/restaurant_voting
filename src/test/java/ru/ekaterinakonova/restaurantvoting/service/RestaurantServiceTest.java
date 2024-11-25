@@ -1,0 +1,67 @@
+package ru.ekaterinakonova.restaurantvoting.service;
+
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import ru.ekaterinakonova.restaurantvoting.model.Restaurant;
+import ru.ekaterinakonova.restaurantvoting.util.exception.NotFoundException;
+
+import javax.validation.ConstraintViolationException;
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static ru.ekaterinakonova.restaurantvoting.data.RestaurantTestData.*;
+
+public class RestaurantServiceTest extends AbstractServiceTest {
+    @Autowired
+    private RestaurantService service;
+
+    @Test
+    void create() throws Exception {
+        Restaurant newRestaurant = new Restaurant(null, "new Restaurant");
+        Restaurant created = service.create(new Restaurant(newRestaurant));
+        newRestaurant.setId(created.getId());
+        assertMatch(created, newRestaurant);
+        assertMatch(service.getAll(), RESTAURANT_1, RESTAURANT_2, RESTAURANT_3, newRestaurant);
+    }
+
+    @Test
+    void delete() throws Exception {
+        service.delete(RESTAURANT_ID_1);
+        assertMatch(service.getAll(), RESTAURANT_3, RESTAURANT_2);
+    }
+
+    @Test
+    void deleteNotFound() throws Exception {
+        assertThrows(NotFoundException.class, () -> service.delete(1));
+    }
+
+    @Test
+    void get() throws Exception {
+        Restaurant restaurant = service.get(RESTAURANT_ID_1);
+        assertMatch(restaurant, RESTAURANT_1);
+    }
+
+    @Test
+    void getNotFound() throws Exception {
+        assertThrows(NotFoundException.class, () -> service.get(1));
+    }
+
+    @Test
+    void update() throws Exception {
+        Restaurant updated = new Restaurant(RESTAURANT_1);
+        updated.setName("newName");
+        service.update(new Restaurant(updated));
+        assertMatch(service.get(RESTAURANT_ID_1), updated);
+    }
+
+    @Test
+    void getAll() throws Exception {
+        List<Restaurant> all = service.getAll();
+        assertMatch(all, RESTAURANT_1, RESTAURANT_2, RESTAURANT_3);
+    }
+
+    @Test
+    void createWithException() throws Exception {
+        validateRootCause(() -> service.create(new Restaurant(null, " ")), ConstraintViolationException.class);
+    }
+}

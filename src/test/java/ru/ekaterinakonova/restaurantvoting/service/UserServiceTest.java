@@ -2,7 +2,6 @@ package ru.ekaterinakonova.restaurantvoting.service;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.Constants;
 import org.springframework.dao.DataAccessException;
 import ru.ekaterinakonova.restaurantvoting.model.Role;
 import ru.ekaterinakonova.restaurantvoting.model.User;
@@ -16,7 +15,7 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
-import static ru.ekaterinakonova.restaurantvoting.UserTestData.*;
+import static ru.ekaterinakonova.restaurantvoting.data.UserTestData.*;
 
 public class UserServiceTest extends AbstractServiceTest {
     @Autowired

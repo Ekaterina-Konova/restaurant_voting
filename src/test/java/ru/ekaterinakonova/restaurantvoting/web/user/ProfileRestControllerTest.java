@@ -11,7 +11,7 @@ import ru.ekaterinakonova.restaurantvoting.web.json.JsonUtil;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static ru.ekaterinakonova.restaurantvoting.UserTestData.*;
+import static ru.ekaterinakonova.restaurantvoting.data.UserTestData.*;
 import static ru.ekaterinakonova.restaurantvoting.web.user.AdminRestController.REST_URL;
 
 class ProfileRestControllerTest extends AbstractControllerTest {
