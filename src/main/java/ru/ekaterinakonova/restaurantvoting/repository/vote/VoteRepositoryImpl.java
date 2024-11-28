@@ -35,9 +35,6 @@ public class VoteRepositoryImpl {
         return voteRepository.get(id, userId, menuId);
     }
 
-    public boolean delete(int id, int userId, int menuId) {
-        return voteRepository.delete(id, userId, menuId) != 0;
-    }
     public Vote getForUserAndDate(int userId, LocalDate date) {
         return voteRepository.getForUserAndDate(userId,date).orElse(null);
     }

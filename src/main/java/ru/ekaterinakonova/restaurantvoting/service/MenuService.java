@@ -34,21 +34,29 @@ public class MenuService {
     public void delete(int id, int restaurantId) {
         checkNotFoundWithId(repository.delete(id, restaurantId), id);
     }
+
     public Menu get(int id, int restaurant_id) {
-       return checkNotFoundWithId(repository.get(id, restaurant_id), id);
+        return checkNotFoundWithId(repository.get(id, restaurant_id), id);
     }
+
     public List<Menu> getAll() {
         return repository.getAll();
     }
+
     public List<Menu> findByRestaurant(int restaurant_id) {
         List<Menu> menuList = repository.findByRestaurant(restaurant_id);
         checkNotFoundWithId(!menuList.isEmpty(), restaurant_id);
         return menuList;
     }
+
+    public Menu findById(int id) {
+        return checkNotFoundWithId(repository.findById(id), id);
+    }
+
     public List<Menu> findByDate(LocalDate date) {
-       Assert.notNull(date, "date must not be null");
+        Assert.notNull(date, "date must not be null");
         List<Menu> menuList = repository.findByDate(date);
-        checkNotFound(!menuList.isEmpty(),date.toString());
+        checkNotFound(!menuList.isEmpty(), date.toString());
         return menuList;
     }
 }

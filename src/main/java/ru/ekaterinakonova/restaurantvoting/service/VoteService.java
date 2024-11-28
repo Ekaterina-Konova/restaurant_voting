@@ -27,19 +27,18 @@ public class VoteService {
 
     public void update(Vote vote, int userId, int menuId) {
         Assert.notNull(vote, "dish must not be null");
-        checkNotFoundWithId(repository.save(vote, userId,menuId), vote.getId());
+        checkNotFoundWithId(repository.save(vote, userId, menuId), vote.getId());
     }
 
-    public void delete(int id, int userId,int menuId) {
-        checkNotFoundWithId(repository.delete(id, userId,menuId), id);
+    public Vote get(int id, int userId, int menuId) {
+        return checkNotFoundWithId(repository.get(id, userId, menuId), id);
     }
-    public Vote get(int id, int userId,int menuId) {
-       return checkNotFoundWithId(repository.get(id, userId,menuId), id);
-    }
+
     public Vote getForUserAndDate(int userId, LocalDate date) {
         Assert.notNull(date, "date must not be null");
         return checkNotFoundWithId(repository.getForUserAndDate(userId, date), userId);
     }
+
     public List<Vote> getAll() {
         return repository.getAll();
     }

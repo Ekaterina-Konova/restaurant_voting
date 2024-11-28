@@ -7,12 +7,12 @@ import org.springframework.data.repository.query.Param;
 import ru.ekaterinakonova.restaurantvoting.model.Restaurant;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
+import java.util.Optional;
 
 @Transactional(readOnly = true)
 public interface RestaurantRepository extends JpaRepository<Restaurant, Integer> {
     @Query("SELECT r FROM Restaurant r WHERE r.name LIKE CONCAT('%',:name,'%')")
-    List<Restaurant> findByName(@Param("name") String name);
+    Optional<Restaurant> findByName(@Param("name") String name);
 
     @Modifying
     @Transactional
