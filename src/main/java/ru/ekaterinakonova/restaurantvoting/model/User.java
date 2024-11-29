@@ -5,17 +5,12 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.BatchSize;
-import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.SafeHtml;
 import org.springframework.util.CollectionUtils;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
 import java.util.Collection;
-import java.util.Date;
-import java.util.EnumSet;
-import java.util.Set;
-import org.springframework.util.CollectionUtils;
-
 import java.util.Date;
 import java.util.EnumSet;
 import java.util.Set;
@@ -28,6 +23,7 @@ public class User extends AbstractNamedEntity {
     @Column(name = "email", unique = true, nullable = false)
     @Email
     @NotBlank
+    @SafeHtml
     @Size(max = 100)
     private String email;
 
@@ -42,6 +38,7 @@ public class User extends AbstractNamedEntity {
     @Column(name = "password", nullable = false)
     @NotEmpty
     @Size(max = 128)
+    @SafeHtml
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
 
@@ -85,6 +82,7 @@ public class User extends AbstractNamedEntity {
     public void setRoles(Collection<Role> roles) {
         this.roles = CollectionUtils.isEmpty(roles) ? EnumSet.noneOf(Role.class) : EnumSet.copyOf(roles);
     }
+
     @Override
     public String toString() {
         return "User (" +

@@ -6,6 +6,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.validator.constraints.SafeHtml;
 
 @MappedSuperclass
 @Setter
@@ -19,11 +20,13 @@ public class AbstractNamedEntity extends AbstractBaseEntity{
     @NotBlank
     @Size(max = 128)
     @Column(name = "firstName", nullable = false)
+    @SafeHtml
     protected String firstName;
 
     @NotBlank
     @Size(max = 128)
     @Column(name = "lastName", nullable = false)
+    @SafeHtml
     protected String lastName;
 
     public AbstractNamedEntity() {
