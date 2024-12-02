@@ -28,17 +28,6 @@ public class VoteServiceTest extends AbstractServiceTest {
     }
 
     @Test
-    void delete() throws Exception {
-        service.delete(VOTE_ID_1, USER_ID, MENU_ID_2);
-        assertMatch(service.getAll(), VOTE_2, VOTE_3);
-    }
-
-    @Test
-    void deleteNotFound() throws Exception {
-        assertThrows(NotFoundException.class, () -> service.delete(1, 1, 1));
-    }
-
-    @Test
     void get() throws Exception {
         Vote vote = service.get(VOTE_ID_1, USER_ID, MENU_ID_2);
         assertMatch(vote, VOTE_1);

@@ -61,6 +61,17 @@ public class RestaurantServiceTest extends AbstractServiceTest {
     }
 
     @Test
+    void findByName() throws Exception {
+        Restaurant restaurant = service.findByName(RESTAURANT_1.getName());
+        assertMatch(restaurant, RESTAURANT_1);
+    }
+
+    @Test
+    void findByNameNotFound() throws Exception {
+        assertThrows(NotFoundException.class, () -> service.findByName("newName"));
+    }
+
+    @Test
     void createWithException() throws Exception {
         validateRootCause(() -> service.create(new Restaurant(null, " ")), ConstraintViolationException.class);
     }
