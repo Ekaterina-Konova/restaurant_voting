@@ -3,6 +3,8 @@ package ru.ekaterinakonova.restaurantvoting.service;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 import ru.ekaterinakonova.restaurantvoting.model.Role;
 import ru.ekaterinakonova.restaurantvoting.model.User;
 import ru.ekaterinakonova.restaurantvoting.util.exception.NotFoundException;
@@ -31,6 +33,7 @@ public class UserServiceTest extends AbstractServiceTest {
     }
 
     @Test
+    @Transactional(propagation = Propagation.NEVER)
     void duplicateMailCreate() throws Exception {
         assertThrows(DataAccessException.class, () ->
                 service.create(new User(null, "Duplicate", "Duplicate", "user@email.com", "newPass", Role.ROLE_USER)));
@@ -88,6 +91,7 @@ public class UserServiceTest extends AbstractServiceTest {
     }
 
     @Test
+    @Transactional(propagation = Propagation.NEVER)
     void createWithException() throws Exception {
         validateRootCause(() -> service.create(new User(null, "", "", "mail.@yandex.ru", "password", Role.ROLE_USER)), ConstraintViolationException.class);
         validateRootCause(() -> service.create(new User(null, "User", "User", "", "password", Role.ROLE_USER)), ConstraintViolationException.class);

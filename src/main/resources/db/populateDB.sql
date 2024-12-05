@@ -10,16 +10,16 @@ DELETE
 FROM USERS;
 ALTER SEQUENCE global_seq RESTART WITH 100000;
 INSERT INTO USERS (FIRSTNAME,LASTNAME,PASSWORD, EMAIL, REGISTERED, ENABLED) VALUES
-                                                                ('Oleg','Plotnikov','user_password', 'user@email.com', '2019-04-23 10:00:00', TRUE),
-                                                                ( 'Ekaterina','Konova','admin_password', 'admin@email.com', '2019-04-23 12:00:00', TRUE);
+                                                                ('Oleg','Plotnikov','{noop}user_password', 'user@email.com', '2019-04-23 10:00:00', TRUE),
+                                                                ( 'Ekaterina','Konova','{noop}admin_password', 'admin@email.com', '2019-04-23 12:00:00', TRUE);
 INSERT INTO user_roles (user_id, role) VALUES
                                            (100000, 'ROLE_USER'),
                                            (100001, 'ROLE_USER'),
                                            (100001, 'ROLE_ADMIN');
 INSERT INTO RESTAURANTS (NAME) VALUES
+                                      ( 'BurgerKing'),
                                       ( 'KFC'),
-                                      ( 'McDonalds'),
-                                      ( 'BurgerKing');
+                                      ( 'McDonalds');
 INSERT INTO MENUS ( MENU_DATE, RESTAURANT_ID) VALUES
                                                      ('2019-04-19', 100002),
                                                      ('2019-04-20', 100003),

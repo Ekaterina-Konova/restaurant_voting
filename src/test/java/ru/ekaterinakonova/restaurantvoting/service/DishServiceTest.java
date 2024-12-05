@@ -3,6 +3,8 @@ package ru.ekaterinakonova.restaurantvoting.service;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 import ru.ekaterinakonova.restaurantvoting.data.MenuTestData;
 import ru.ekaterinakonova.restaurantvoting.model.Dish;
 import ru.ekaterinakonova.restaurantvoting.util.exception.NotFoundException;
@@ -30,6 +32,7 @@ public class DishServiceTest extends AbstractServiceTest {
     }
 
     @Test
+    @Transactional(propagation = Propagation.NEVER)
     void duplicateNameCreate() throws Exception {
         assertThrows(DataAccessException.class, () -> service.create(new Dish(null, "Steak", 1000), MenuTestData.MENU_ID_1));
     }
@@ -94,6 +97,7 @@ public class DishServiceTest extends AbstractServiceTest {
     }
 
     @Test
+    @Transactional(propagation = Propagation.NEVER)
     void createWithException() throws Exception {
         validateRootCause(() -> service.create(new Dish(null, "", 100), MENU_ID_1), ConstraintViolationException.class);
         validateRootCause(() -> service.create(new Dish(null, "name", -1), MENU_ID_1), ConstraintViolationException.class);

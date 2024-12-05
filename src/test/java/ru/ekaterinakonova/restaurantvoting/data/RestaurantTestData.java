@@ -15,9 +15,9 @@ public class RestaurantTestData {
     public static final int RESTAURANT_ID_2 = START_SEQ + 3;
     public static final int RESTAURANT_ID_3 = START_SEQ + 4;
 
-    public static final Restaurant RESTAURANT_1 = new Restaurant(RESTAURANT_ID_1, "KFC");
-    public static final Restaurant RESTAURANT_2 = new Restaurant(RESTAURANT_ID_2, "McDonald");
-    public static final Restaurant RESTAURANT_3 = new Restaurant(RESTAURANT_ID_3, "BurgerKing");
+    public static final Restaurant RESTAURANT_1 = new Restaurant(RESTAURANT_ID_1, "BurgerKing");
+    public static final Restaurant RESTAURANT_2 = new Restaurant(RESTAURANT_ID_2, "KFC");
+    public static final Restaurant RESTAURANT_3 = new Restaurant(RESTAURANT_ID_3, "McDonald");
 
     public static void assertMatch(Restaurant actual, Restaurant expected) {
         assertThat(actual).isEqualTo(expected);

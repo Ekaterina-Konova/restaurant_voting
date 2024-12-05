@@ -2,15 +2,19 @@ package ru.ekaterinakonova.restaurantvoting.web;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.ResultMatcher;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.filter.CharacterEncodingFilter;
 import ru.ekaterinakonova.restaurantvoting.AbstractTest;
+import ru.ekaterinakonova.restaurantvoting.util.exception.ErrorType;
 
 import javax.annotation.PostConstruct;
 
-@Transactional
+import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+
+
 abstract public class AbstractControllerTest extends AbstractTest {
     private static final CharacterEncodingFilter CHARACTER_ENCODING_FILTER = new CharacterEncodingFilter();
 
@@ -29,6 +33,10 @@ abstract public class AbstractControllerTest extends AbstractTest {
         mockMvc = MockMvcBuilders
                 .webAppContextSetup(webApplicationContext)
                 .addFilters(CHARACTER_ENCODING_FILTER)
+                .apply(springSecurity())
                 .build();
+    }
+    public ResultMatcher errorType(ErrorType errorType) {
+        return jsonPath("$.type").value(errorType.name());
     }
 }

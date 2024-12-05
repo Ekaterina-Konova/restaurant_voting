@@ -2,6 +2,8 @@ package ru.ekaterinakonova.restaurantvoting.service;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 import ru.ekaterinakonova.restaurantvoting.model.Vote;
 import ru.ekaterinakonova.restaurantvoting.util.exception.NotFoundException;
 
@@ -59,6 +61,7 @@ public class VoteServiceTest extends AbstractServiceTest {
     }
 
     @Test
+    @Transactional(propagation = Propagation.NEVER)
     void createWithException() throws Exception {
         validateRootCause(() -> service.create(new Vote(null, null), USER_ID, MENU_ID_2), ConstraintViolationException.class);
     }

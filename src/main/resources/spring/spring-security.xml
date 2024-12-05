@@ -3,24 +3,21 @@
              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
              xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 	http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd">
-    <http pattern="/resources/**" security="none"/>
-    <http pattern="/rest/**" use-expressions="true"
-          name="restSecurityFilterChain" create-session="stateless">
+    <http pattern="/**" use-expressions="true" name="restSecurityFilterChain" create-session="stateless">
         <http-basic/>
         <intercept-url pattern="/rest/admin/**" access="hasRole('ROLE_ADMIN')"/>
+        <intercept-url pattern="/rest/dishes/**" access="hasRole('ROLE_ADMIN')"/>
+        <intercept-url pattern="/rest/restaurants/**" access="hasRole('ROLE_ADMIN')"/>
+        <intercept-url pattern="/rest/profile/**" access="isAuthenticated()"/>
+        <intercept-url pattern="/profile/register" access="isAnonymous()"/>
         <intercept-url pattern="/**" access="isAuthenticated()"/>
         <csrf disabled="true"/>
     </http>
-    <beans:bean name="noopEncoder" class="org.springframework.security.crypto.password.NoOpPasswordEncoder"/>
+    <beans:bean class="org.springframework.security.crypto.factory.PasswordEncoderFactories"
+                id="passwordEncoder" factory-method="createDelegatingPasswordEncoder"/>
     <authentication-manager>
-        <authentication-provider>
-            <password-encoder ref="noopEncoder"/>
-            <user-service>
-                <user name="user@email.com"
-                      password="user_password" authorities="ROLE_USER"/>
-                <user name="admin@email.com"
-                      password="admin_password" authorities="ROLE_ADMIN"/>
-            </user-service>
+        <authentication-provider user-service-ref="userService">
+            <password-encoder ref="passwordEncoder"/>
         </authentication-provider>
     </authentication-manager>
 </beans:beans>

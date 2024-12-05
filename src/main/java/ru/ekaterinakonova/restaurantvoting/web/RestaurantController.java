@@ -11,6 +11,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import ru.ekaterinakonova.restaurantvoting.model.Restaurant;
 import ru.ekaterinakonova.restaurantvoting.service.RestaurantService;
 
+import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
 
@@ -38,7 +39,7 @@ public class RestaurantController {
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Restaurant> createWithLocation(@RequestBody Restaurant restaurant) {
+    public ResponseEntity<Restaurant> createWithLocation(@Valid @RequestBody Restaurant restaurant) {
         log.info("Create restaurant: {}", restaurant);
         checkNew(restaurant);
         Restaurant created = restaurantService.create(restaurant);
@@ -58,7 +59,7 @@ public class RestaurantController {
 
     @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
-    public void update(@PathVariable int id, @RequestBody Restaurant restaurant) {
+    public void update(@Valid @RequestBody Restaurant restaurant, @PathVariable int id) {
         log.info("Update {} by id: {}", restaurant, id);
         assureIdConsistent(restaurant, id);
         restaurantService.update(restaurant);

@@ -3,10 +3,11 @@ package ru.ekaterinakonova.restaurantvoting.data;
 import org.springframework.test.web.servlet.ResultMatcher;
 import ru.ekaterinakonova.restaurantvoting.model.Role;
 import ru.ekaterinakonova.restaurantvoting.model.User;
+import ru.ekaterinakonova.restaurantvoting.web.json.JsonUtil;
 
 import java.util.List;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Java6Assertions.assertThat;
 import static ru.ekaterinakonova.restaurantvoting.TestUtil.readFromJsonMvcResult;
 import static ru.ekaterinakonova.restaurantvoting.TestUtil.readListFromJsonMvcResult;
 import static ru.ekaterinakonova.restaurantvoting.model.AbstractBaseEntity.START_SEQ;
@@ -35,6 +36,10 @@ public class UserTestData {
 
     public static ResultMatcher contentJson(User expected) {
         return result -> assertMatch(readFromJsonMvcResult(result, User.class), expected);
+    }
+
+    public static String jsonWithPassword(User user,String password) {
+        return JsonUtil.writeAdditionProps(user,"password",password);
     }
 }
 

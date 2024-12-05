@@ -2,6 +2,8 @@ package ru.ekaterinakonova.restaurantvoting.service;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 import ru.ekaterinakonova.restaurantvoting.model.Restaurant;
 import ru.ekaterinakonova.restaurantvoting.util.exception.NotFoundException;
 
@@ -27,7 +29,7 @@ public class RestaurantServiceTest extends AbstractServiceTest {
     @Test
     void delete() throws Exception {
         service.delete(RESTAURANT_ID_1);
-        assertMatch(service.getAll(), RESTAURANT_3, RESTAURANT_2);
+        assertMatch(service.getAll(), RESTAURANT_2, RESTAURANT_3);
     }
 
     @Test
@@ -72,6 +74,7 @@ public class RestaurantServiceTest extends AbstractServiceTest {
     }
 
     @Test
+    @Transactional(propagation = Propagation.NEVER)
     void createWithException() throws Exception {
         validateRootCause(() -> service.create(new Restaurant(null, " ")), ConstraintViolationException.class);
     }

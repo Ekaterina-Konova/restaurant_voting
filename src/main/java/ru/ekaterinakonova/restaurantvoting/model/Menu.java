@@ -7,6 +7,8 @@ import lombok.Setter;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
+import java.util.Collections;
+import java.util.List;
 
 @Entity
 @Getter
@@ -17,8 +19,11 @@ public class Menu extends AbstractBaseEntity {
     @Column(name = "menu_date", nullable = false)
     private LocalDate date;
 
+    @OneToMany(fetch = FetchType.EAGER,mappedBy = "menu",cascade = CascadeType.ALL,orphanRemoval = true)
+    @OrderBy("name ASC")
+    private List<Dish> dishes= Collections.emptyList();
 
-    @ManyToOne(fetch = FetchType.EAGER,optional = false)
+    @ManyToOne(fetch = FetchType.LAZY,optional = false)
     @JoinColumn(name="restaurant_id",nullable = false)
     @NotNull
     private Restaurant restaurant;
@@ -31,6 +36,9 @@ public class Menu extends AbstractBaseEntity {
     public Menu(Integer id, LocalDate date) {
         super(id);
         this.date = date;
+    }
+    public void setDishes(List<Dish> dishes) {
+        this.dishes.addAll(dishes);
     }
     @Override
     public String toString() {

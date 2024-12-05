@@ -10,15 +10,12 @@ import org.springframework.util.CollectionUtils;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
-import java.util.Collection;
-import java.util.Date;
-import java.util.EnumSet;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 @Setter
 @Getter
-@Table(name = "users",uniqueConstraints = {@UniqueConstraint(columnNames ="email",name="users_unique_email_idx" )})
+@Table(name = "users", uniqueConstraints = {@UniqueConstraint(columnNames = "email", name = "users_unique_email_idx")})
 public class User extends AbstractNamedEntity {
     @Column(name = "email", unique = true, nullable = false)
     @Email
@@ -59,28 +56,37 @@ public class User extends AbstractNamedEntity {
     @BatchSize(size = 200)
     private Set<Role> roles;
 
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
+    @OrderBy("date DESC")
+    private List<Vote> votes = Collections.emptyList();
+
     public User() {
 
     }
 
     public User(User u) {
-        this(u.getId(), u.getFirstName(), u.getLastName(), u.getEmail(), u.getPassword(),u.isEnabled(),u.getRegistered(), u.getRoles());
+        this(u.getId(), u.getFirstName(), u.getLastName(), u.getEmail(), u.getPassword(), u.isEnabled(), u.getRegistered(), u.getRoles());
     }
 
-    public User(Integer id, String firstName, String lastName, String email, String password,  Role role, Role... roles) {
-        this(id, firstName, lastName, email, password, true,new Date(), EnumSet.of(role, roles));
+    public User(Integer id, String firstName, String lastName, String email, String password, Role role, Role... roles) {
+        this(id, firstName, lastName, email, password, true, new Date(), EnumSet.of(role, roles));
     }
 
-    public User(Integer id, String firstName, String lastName, String email, String password, boolean enabled, Date registered,Collection<Role> roles) {
+    public User(Integer id, String firstName, String lastName, String email, String password, boolean enabled, Date registered, Collection<Role> roles) {
         super(id, firstName, lastName);
         this.email = email;
         this.password = password;
         this.enabled = enabled;
-        this.registered= registered;
+        this.registered = registered;
         setRoles(roles);
     }
+
     public void setRoles(Collection<Role> roles) {
         this.roles = CollectionUtils.isEmpty(roles) ? EnumSet.noneOf(Role.class) : EnumSet.copyOf(roles);
+    }
+
+    public void setVotes(List<Vote> votes) {
+        this.votes.addAll(votes);
     }
 
     @Override

@@ -6,10 +6,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import ru.ekaterinakonova.restaurantvoting.model.Dish;
 import ru.ekaterinakonova.restaurantvoting.service.DishService;
+import ru.ekaterinakonova.restaurantvoting.to.DishTo;
 
 import java.net.URI;
 import java.time.LocalDate;
@@ -41,10 +43,10 @@ public class DishController {
     }
 
     @PostMapping(value = "/{menuId}", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Dish> createWithLocation(@RequestBody Dish dish, @PathVariable int menuId) {
-        log.info("Create {} for menuId={}", dish, menuId);
-        checkNew(dish);
-        Dish created = service.create(dish, menuId);
+    public ResponseEntity<Dish> createWithLocation(@Validated @RequestBody DishTo dishTo, @PathVariable int menuId) {
+        log.info("Create {} for menuId={}", dishTo, menuId);
+        checkNew(dishTo);
+        Dish created = service.create(new Dish(dishTo.getId(), dishTo.getDescription(), dishTo.getCost()), menuId);
         URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path(REST_URL + "/{menuId}/{id}")
                 .buildAndExpand(menuId, created.getId()).toUri();
@@ -60,10 +62,10 @@ public class DishController {
 
     @PutMapping(value = "/{menuId}/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void update(@PathVariable int id, @PathVariable int menuId, @RequestBody Dish dish) {
-        log.info("Update {} with id{} for menuId={}", dish, id, menuId);
-        assureIdConsistent(dish, id);
-        service.update(dish, menuId);
+    public void update(@Validated @RequestBody DishTo dishTo, @PathVariable int id, @PathVariable int menuId) {
+        log.info("Update {} with id{} for menuId={}", dishTo, id, menuId);
+        assureIdConsistent(dishTo, id);
+        service.update(new Dish(dishTo.getId(), dishTo.getDescription(), dishTo.getCost()), menuId);
     }
 
     @GetMapping("/by")

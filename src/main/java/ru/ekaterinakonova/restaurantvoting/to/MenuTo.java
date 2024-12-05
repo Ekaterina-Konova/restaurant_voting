@@ -1,25 +1,28 @@
 package ru.ekaterinakonova.restaurantvoting.to;
 
 import lombok.Getter;
-import ru.ekaterinakonova.restaurantvoting.model.AbstractBaseEntity;
+import lombok.Setter;
 import ru.ekaterinakonova.restaurantvoting.model.Dish;
 
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
-import java.util.List;
 
 @Getter
-public class MenuTo extends AbstractBaseEntity {
+@Setter
+public class MenuTo extends BaseTo {
     @NotNull
-    private final LocalDate date;
+    private LocalDate date;
 
     @NotNull
-    private final List<Dish> menu;
+    private Dish[] menu;
+
+    public MenuTo() {
+    }
 
     public MenuTo(Integer id, LocalDate date, Dish... dishes) {
         super(id);
         this.date = date;
-        this.menu = List.of(dishes);
+        this.menu = dishes;
     }
 
     @Override
